@@ -1235,12 +1235,6 @@ action:
                                       required states: {{input_states}}, 
                                       TEST: {{'PASS' if state_true else 'FAIL'}}, 
                                     Custom Filter: {{'PASS' if custom_filter else 'FAIL'}},
-                - alias: "Custom Action Auto Multi"
-                  choose:
-                    - conditions:
-                        - "{{ custom_action_auto_multi | length > 0 }}"
-                        - "{{ loitering or (not home and zone_filter and zone_multi_filter and state_true and (new_snapshot or presence_changed or stationary_moved or zone_only_changed or entered_zones_changed or sub_label_changed)) }}"
-                      sequence: !input "custom_action_auto_multi"
                 - alias: "Update Notification"
                   choose:
                     - conditions: "{{ loitering or (custom_filter and not home and zone_filter and zone_multi_filter and state_true and (new_snapshot or presence_changed or stationary_moved or zone_only_changed or entered_zones_changed or sub_label_changed)) }}"
@@ -1404,4 +1398,10 @@ action:
                                       uri: "{{url_3}}"
                                       icon: "{{icon_3}}"
                                       destructive: true
+                - alias: "Custom Action Auto Multi"
+                  choose:
+                    - conditions:
+                        - "{{ custom_action_auto_multi | length > 0 }}"
+                        - "{{ loitering or (not home and zone_filter and zone_multi_filter and state_true and (new_snapshot or presence_changed or stationary_moved or zone_only_changed or entered_zones_changed or sub_label_changed)) }}"
+                      sequence: !input "custom_action_auto_multi"
               until: "{{ not wait.trigger or wait.trigger.payload_json['type'] == 'end' }}"
